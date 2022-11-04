@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="card card-default">
-        @include('partials.discussion-header')
+   @include('partials.discussion-header')
 
         <div class="card-body">
             <div class="text-center">
@@ -15,7 +15,7 @@
 
             {!! $discussion->content  !!}
 
-            @if($discussion->bestReply)
+          @if($discussion->bestReply)
 
             <div class="card bg-success my-5" style="color: white">
                 <div class="card-header">
@@ -23,7 +23,7 @@
                         <div class="d-flex justify-content-between">
                             <div>
 
-                                <img src="{{Gravatar::src($discussion->bestReply->owner->email)}}" alt="" width="40px" height="40px" style="border-radius: 50%">
+                                <img src="{{ gravatar()->avatar($discussion->bestReply->owner->email) }}" alt="" width="40px" height="40px" style="border-radius: 50%">
                                 <strong>
                                     {{$discussion->bestReply->owner->name}}
                                 </strong>
@@ -50,7 +50,7 @@
 
 
 
-    @foreach($discussion->replies()->paginate(3) as $reply)
+  @foreach($discussion->replies()->paginate(3) as $reply)
 
         <div class="card my-5">
 
@@ -60,9 +60,9 @@
 
                  <div>
 
-                     <img src="{{Gravatar::src($reply->owner->email)}}" alt="" width="40px" height="40px" style="border-radius: 50%">
+                     <img src="{{gravatar()->avatar($reply->owner->email)}}" alt="" width="40px" height="40px" style="border-radius: 50%">
                      <span>{{$reply->owner->name}}</span>
-                     
+
                  </div>
                     <div>
                        @auth
@@ -86,7 +86,7 @@
 
                         @endauth
                     </div>
-                    
+
                 </div>
 
             </div>
@@ -100,10 +100,9 @@
 
         @endforeach
 
-    {{$discussion->replies()->paginate(3)->links()}}
+    {{$discussion->replies()->paginate(3)->links('pagination::bootstrap-5')}}
 
-
-
+ 
 
 
     <div class="card my-5">
@@ -115,7 +114,7 @@
                 <input type="hidden" id="content" name="content">
                 <trix-editor input="content"></trix-editor>
 
-                <button class="btn btn-success btn-sm my-2" type="submit">
+                <button class="btn btn-success btn-sm my-2" type="submit" style="  background-color: green;">
                     Add Reply
                 </button>
 

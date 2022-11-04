@@ -1,8 +1,7 @@
 <?php
 
-namespace Discussion_forum\Http\Controllers;
+namespace App\Http\Controllers;
 
-use Discussion_forum\Discussion;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -26,6 +25,4 @@ class HomeController extends Controller
     {
         return view('home');
     }
-
-
 }

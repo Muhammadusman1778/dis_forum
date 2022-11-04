@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,20 +13,15 @@
 |
 */
 
-use Discussion_forum\Http\Controllers\UsersController;
+Route::get('/',[App\Http\Controllers\DiscussionsController::class,'dashboard']);
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Auth::routes(['verify'=>true]);
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::resource('discussion','DiscussionsController');
-
-Route::resource('discussion/{discussion}/replies','RepliesController');
-
-Route::get('users/notifications',[UsersController::class,'notifications'])->name('users.notifications');
-
-Route::post('discussion/{discussion}/replies/{reply}/mark-as-best-reply','DiscussionsController@reply')->name('discussion.best-reply');
+require __DIR__.'/auth.php';
+Route::get('/home', [App\Http\Controllers\HomeController::class,'index'])->name('home');
+Route::resource('discussion',App\Http\Controllers\DiscussionsController::class);
+Route::resource('discussion/{discussion}/replies',App\Http\Controllers\RepliesController::class);
+Route::post('discussion/{discussion}/replies/{reply}/mark-as-best-reply', [App\Http\Controllers\DiscussionsController::class,'reply'])->name('discussion.best-reply');
+Route::get('users/notifications',[App\Http\Controllers\UsersController::class,'notifications'])->name('users.notifications');

@@ -1,13 +1,12 @@
 <?php
 
-namespace Discussion_forum\Http\Controllers;
+namespace App\Http\Controllers;
 
-use Discussion_forum\Discussion;
-use Discussion_forum\Http\Requests\CreateDiscussionRequest;
-use Discussion_forum\Notifications\NewReplyAdded;
-use Discussion_forum\Reply;
+use App\Models\Discussion;
+use App\Models\Reply;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
+use App\Notifications\NewReplyAdded;
 class DiscussionsController extends Controller
 {
 
@@ -15,7 +14,6 @@ class DiscussionsController extends Controller
     {
         $this->middleware(['auth','verified'])->only(['create','store']);
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -42,12 +40,12 @@ class DiscussionsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateDiscussionRequest $request)
+    public function store(Request $request)
     {
         auth()->user()->discussions()->create([
             'title'=>$request->title,
-            'slug'=>str_slug($request->title)
-            ,'content'=>$request->content,
+            'slug'=>Str::slug($request->title,'-'),
+            'content'=>$request->content,
             'channel_id'=>$request->channel
 
         ]);
@@ -58,22 +56,21 @@ class DiscussionsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Discussion  $discussion
      * @return \Illuminate\Http\Response
      */
     public function show(Discussion $discussion)
     {
-
         return view('discussions.show',['discussion'=>$discussion]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Discussion  $discussion
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Discussion $discussion)
     {
         //
     }
@@ -82,10 +79,10 @@ class DiscussionsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Discussion  $discussion
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Discussion $discussion)
     {
         //
     }
@@ -93,26 +90,25 @@ class DiscussionsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Discussion  $discussion
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Discussion $discussion)
     {
         //
     }
-
-
     public function reply(Discussion $discussion,Reply $reply)
     {
 
 
         $discussion->markAsBestReply($reply);
-
-
         $discussion->author->notify(new NewReplyAdded($discussion));
-
         session()->flash('success','Mark as best reply');
 
         return redirect()->back();
     }
+    public function dashboard(){
+        return view('layouts.app');
+    }
+
 }

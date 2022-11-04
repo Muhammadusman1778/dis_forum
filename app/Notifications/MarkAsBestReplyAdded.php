@@ -1,17 +1,15 @@
 <?php
 
-namespace Discussion_forum\Notifications;
+namespace App\Notifications;
 
-use Discussion_forum\Discussion;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-
-class MarkAsBestReplyAdded extends Notification implements ShouldQueue
+use Illuminate\Notifications\Notification;
+use App\Models\Discussion;
+class MarkAsBestReplyAdded extends Notification
 {
     use Queueable;
-    public $discussion;
 
     /**
      * Create a new notification instance.
@@ -31,7 +29,7 @@ class MarkAsBestReplyAdded extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail','database'];
+        return ['mail'];
     }
 
     /**
@@ -43,9 +41,9 @@ class MarkAsBestReplyAdded extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Your reply was marked as Best Reply.')
-                    ->action('View', route('discussion.show',$this->discussion->slug))
-                    ->line('Thank you for using our application!');
+        ->line('Your reply was marked as Best Reply.')
+        ->action('View', route('discussion.show',$this->discussion->slug))
+        ->line('Thank you for using our application!');
     }
 
     /**
