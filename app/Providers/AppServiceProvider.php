@@ -1,11 +1,10 @@
 <?php
 
-namespace Discussion_forum\Providers;
+namespace App\Providers;
 
-use Discussion_forum\Channel;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-
+use App\Models\Channel;
+use Illuminate\Support\Facades\View;
 class AppServiceProvider extends ServiceProvider
 {
     /**

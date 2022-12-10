@@ -1,6 +1,6 @@
 <?php
 
-namespace Discussion_forum\Http\Controllers;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
@@ -8,14 +8,14 @@ class UsersController extends Controller
 {
     public function notifications(){
 
-         //mark all as read
+        //mark all as read
 
-        auth()->user()->unreadNotifications->markAsRead();
+       auth()->user()->unreadNotifications->markAsRead();
 
-        //display all notifications
+       //display all notifications
 
-        return view('users.notifications',[
-            'notifications'=>auth()->user()->notifications()->paginate(5)]);
-         
-    }
+       return view('users.notifications',[
+           'notifications'=>auth()->user()->notifications()->paginate(5)]);
+
+   }
 }

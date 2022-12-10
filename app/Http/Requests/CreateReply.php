@@ -1,6 +1,6 @@
 <?php
 
-namespace Discussion_forum\Http\Requests;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -19,7 +19,7 @@ class CreateReply extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function rules()
     {

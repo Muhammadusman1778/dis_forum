@@ -1,21 +1,15 @@
 <?php
 
-namespace Discussion_forum\Notifications;
+namespace App\Notifications;
 
-use Discussion_forum\Discussion;
+use App\Models\Discussion;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-
-class NewReplyAdded extends Notification implements ShouldQueue
+use Illuminate\Notifications\Notification;
+class NewReplyAdded extends Notification
 {
-
-    public $discussion;
-
     use Queueable;
-
-
 
     /**
      * Create a new notification instance.
@@ -35,7 +29,7 @@ class NewReplyAdded extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail','database'];
+        return ['mail'];
     }
 
     /**

@@ -1,12 +1,12 @@
 <?php
 
-namespace Discussion_forum\Http\Controllers;
+namespace App\Http\Controllers;
 
-use Discussion_forum\Discussion;
-use Discussion_forum\Http\Requests\CreateReply;
-use Discussion_forum\Notifications\NewReplyAdded;
+use App\Models\Reply;
 use Illuminate\Http\Request;
-
+use App\Models\Discussion;
+use App\Http\Requests\CreateReply;
+use App\Notifications\NewReplyAdded;
 class RepliesController extends Controller
 {
     /**
@@ -43,24 +43,21 @@ class RepliesController extends Controller
             'discussion_id'=>$discussion->id
         ]);
 
-        if($discussion->author()->id !== auth()->user()->id){
-
+        if($discussion->author->id !== auth()->user()->id){
+           
             $discussion->author->notify(new NewReplyAdded($discussion));
         }
-
         session()->flash('success','Reply added');
-
         return redirect()->back();
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Reply  $reply
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Reply $reply)
     {
         //
     }
@@ -68,10 +65,10 @@ class RepliesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Reply  $reply
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Reply $reply)
     {
         //
     }
@@ -80,10 +77,10 @@ class RepliesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Reply  $reply
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Reply $reply)
     {
         //
     }
@@ -91,10 +88,10 @@ class RepliesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Reply  $reply
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Reply $reply)
     {
         //
     }
